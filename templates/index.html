@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adaptive Prompt Optimizer</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .prompt-input {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .prompt-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .tool-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .tool-card {
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .tool-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .tool-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tool-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .tool-card .strengths {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .optimize-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .optimize-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .optimize-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-section {
+            margin-top: 40px;
+            display: none;
+        }
+
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .prompt-box {
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .prompt-box.original {
+            border-color: #e74c3c;
+        }
+
+        .prompt-box.optimized {
+            border-color: #27ae60;
+        }
+
+        .prompt-header {
+            padding: 15px 20px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .prompt-box.original .prompt-header {
+            background: #e74c3c;
+        }
+
+        .prompt-box.optimized .prompt-header {
+            background: #27ae60;
+        }
+
+        .prompt-content {
+            padding: 20px;
+            background: #f8f9fa;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .analysis-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .analysis-item {
+            text-align: center;
+        }
+
+        .analysis-item .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+        }
+
+        .analysis-item .label {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .explanations {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            border-left: 4px solid #667eea;
+        }
+
+        .explanations h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .explanations ul {
+            list-style: none;
+        }
+
+        .explanations li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .explanations li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .explanations li:last-child {
+            border-bottom: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .tool-selector {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-magic"></i> Adaptive Prompt Optimizer</h1>
+            <p>Optimize your prompts for specific AI coding tools</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="input-section">
+                <div class="form-group">
+                    <label for="prompt-input">
+                        <i class="fas fa-edit"></i> Enter your base prompt:
+                    </label>
+                    <textarea 
+                        id="prompt-input" 
+                        class="prompt-input" 
+                        placeholder="Example: Create a function that validates email addresses and returns true if valid, false otherwise..."
+                    ></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-tools"></i> Select target AI tool:
+                    </label>
+                    <div class="tool-selector" id="tool-selector">
+                        <!-- Tools will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <button class="optimize-btn" id="optimize-btn" onclick="optimizePrompt()">
+                    <i class="fas fa-rocket"></i> Optimize Prompt
+                </button>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Optimizing your prompt...</p>
+            </div>
+            
+            <div class="results-section" id="results-section">
+                <div class="comparison-container">
+                    <div class="prompt-box original">
+                        <div class="prompt-header">
+                            <i class="fas fa-file-alt"></i> Original Prompt
+                        </div>
+                        <div class="prompt-content" id="original-prompt"></div>
+                    </div>
+                    
+                    <div class="prompt-box optimized">
+                        <div class="prompt-header">
+                            <i class="fas fa-magic"></i> Optimized Prompt
+                        </div>
+                        <div class="prompt-content" id="optimized-prompt"></div>
+                    </div>
+                </div>
+                
+                <div class="analysis-section">
+                    <h3><i class="fas fa-chart-bar"></i> Prompt Analysis</h3>
+                    <div class="analysis-grid" id="analysis-grid">
+                        <!-- Analysis will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="explanations">
+                    <h3><i class="fas fa-lightbulb"></i> Optimization Explanations</h3>
+                    <ul id="explanations-list">
+                        <!-- Explanations will be populated by JavaScript -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedTool = null;
+        let tools = {};
+
+        // Load tools on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTools();
+        });
+
+        async function loadTools() {
+            try {
+                const response = await fetch('/api/tools');
+                tools = await response.json();
+                renderTools();
+            } catch (error) {
+                console.error('Error loading tools:', error);
+            }
+        }
+
+        function renderTools() {
+            const toolSelector = document.getElementById('tool-selector');
+            toolSelector.innerHTML = '';
+            
+            Object.keys(tools).forEach(toolId => {
+                const tool = tools[toolId];
+                const toolCard = document.createElement('div');
+                toolCard.className = 'tool-card';
+                toolCard.dataset.toolId = toolId;
+                toolCard.onclick = () => selectTool(toolId);
+                
+                toolCard.innerHTML = `
+                    <h3>${tool.name}</h3>
+                    <div class="strengths">Strengths: ${tool.strengths.join(', ')}</div>
+                `;
+                
+                toolSelector.appendChild(toolCard);
+            });
+        }
+
+        function selectTool(toolId) {
+            // Remove previous selection
+            document.querySelectorAll('.tool-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selection to clicked tool
+            document.querySelector(`[data-tool-id="${toolId}"]`).classList.add('selected');
+            selectedTool = toolId;
+        }
+
+        async function optimizePrompt() {
+            const promptInput = document.getElementById('prompt-input');
+            const prompt = promptInput.value.trim();
+            
+            if (!prompt) {
+                alert('Please enter a prompt to optimize.');
+                return;
+            }
+            
+            if (!selectedTool) {
+                alert('Please select a target AI tool.');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results-section').style.display = 'none';
+            document.getElementById('optimize-btn').disabled = true;
+            
+            try {
+                const response = await fetch('/api/optimize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        tool: selectedTool
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to optimize prompt');
+                }
+                
+                const result = await response.json();
+                displayResults(result);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while optimizing the prompt. Please try again.');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('optimize-btn').disabled = false;
+            }
+        }
+
+        function displayResults(result) {
+            // Display prompts
+            document.getElementById('original-prompt').textContent = result.original_prompt;
+            document.getElementById('optimized-prompt').textContent = result.optimized_prompt;
+            
+            // Display analysis
+            const analysisGrid = document.getElementById('analysis-grid');
+            analysisGrid.innerHTML = '';
+            
+            const analysisItems = [
+                { label: 'Intent', value: result.analysis.intent },
+                { label: 'Complexity', value: result.analysis.complexity },
+                { label: 'Language', value: result.analysis.language },
+                { label: 'Word Count', value: result.analysis.length },
+                { label: 'Target Tool', value: result.tool }
+            ];
+            
+            analysisItems.forEach(item => {
+                const analysisItem = document.createElement('div');
+                analysisItem.className = 'analysis-item';
+                analysisItem.innerHTML = `
+                    <span class="value">${item.value}</span>
+                    <span class="label">${item.label}</span>
+                `;
+                analysisGrid.appendChild(analysisItem);
+            });
+            
+            // Display explanations
+            const explanationsList = document.getElementById('explanations-list');
+            explanationsList.innerHTML = '';
+            
+            result.explanations.forEach(explanation => {
+                const li = document.createElement('li');
+                li.textContent = explanation;
+                explanationsList.appendChild(li);
+            });
+            
+            // Show results
+            document.getElementById('results-section').style.display = 'block';
+            
+            // Scroll to results
+            document.getElementById('results-section').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Allow Enter key to trigger optimization (with Ctrl/Cmd)
+        document.getElementById('prompt-input').addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                optimizePrompt();
+            }
+        });
+    </script>
+</body>
+</html>

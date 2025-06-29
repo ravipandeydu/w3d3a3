@@ -1,0 +1,322 @@
+{
+  "tools": {
+    "copilot": {
+      "name": "GitHub Copilot",
+      "description": "AI pair programmer that suggests code completions and entire functions",
+      "strengths": [
+        "Code completion",
+        "Context awareness",
+        "Multi-language support",
+        "Function generation",
+        "Comment-to-code conversion"
+      ],
+      "weaknesses": [
+        "May generate outdated patterns",
+        "Limited understanding of project-specific conventions",
+        "Can produce verbose or inefficient code"
+      ],
+      "best_practices": [
+        "Write clear, descriptive comments",
+        "Use meaningful variable and function names",
+        "Provide type hints in typed languages",
+        "Break complex tasks into smaller functions",
+        "Include relevant imports and dependencies"
+      ],
+      "optimization_techniques": [
+        "Add explicit type annotations",
+        "Include function signatures with parameter descriptions",
+        "Specify programming language context",
+        "Use descriptive variable names in examples",
+        "Add inline comments explaining intent"
+      ],
+      "prompt_patterns": {
+        "function_creation": "Create a {language} function named {name} that {description}. Include type hints and handle {edge_cases}.",
+        "code_completion": "Complete this {language} code: {code_snippet}. Follow {conventions} and ensure {requirements}.",
+        "refactoring": "Refactor this {language} code to {improvement_goal}: {code}. Maintain {constraints}."
+      }
+    },
+    "cursor": {
+      "name": "Cursor AI",
+      "description": "AI-powered code editor with intelligent editing and refactoring capabilities",
+      "strengths": [
+        "Code editing",
+        "Refactoring",
+        "Debugging",
+        "Context-aware modifications",
+        "Multi-file operations"
+      ],
+      "weaknesses": [
+        "Requires specific file context",
+        "May struggle with large codebases",
+        "Limited understanding of business logic"
+      ],
+      "best_practices": [
+        "Provide specific file locations",
+        "Include before/after examples",
+        "Specify exact changes needed",
+        "Mention relevant imports and dependencies",
+        "Use precise action verbs"
+      ],
+      "optimization_techniques": [
+        "Specify exact file paths and line numbers",
+        "Provide clear before/after code examples",
+        "Use action-oriented language (refactor, optimize, fix)",
+        "Include relevant file context and imports",
+        "Specify scope of changes (function, class, file)"
+      ],
+      "prompt_patterns": {
+        "editing": "In file {filename}, {action} the {target} at line {line_number} to {desired_outcome}.",
+        "refactoring": "Refactor the {component} in {filename} to {improvement}. Current code: {code}",
+        "debugging": "Fix the {error_type} in {filename} at {location}. Error: {error_message}. Code: {code}"
+      }
+    },
+    "replit": {
+      "name": "Replit AI",
+      "description": "Educational-focused AI assistant for learning and rapid prototyping",
+      "strengths": [
+        "Rapid prototyping",
+        "Educational explanations",
+        "Web development",
+        "Beginner-friendly code",
+        "Complete project setup"
+      ],
+      "weaknesses": [
+        "May oversimplify complex problems",
+        "Limited enterprise-level patterns",
+        "Focus on learning over production code"
+      ],
+      "best_practices": [
+        "Request step-by-step explanations",
+        "Ask for complete, runnable examples",
+        "Specify skill level (beginner/intermediate/advanced)",
+        "Include learning objectives",
+        "Request comments and documentation"
+      ],
+      "optimization_techniques": [
+        "Break complex tasks into learning steps",
+        "Request complete, runnable examples",
+        "Ask for explanations alongside code",
+        "Specify target skill level",
+        "Include educational context and objectives"
+      ],
+      "prompt_patterns": {
+        "learning": "Teach me how to {concept} in {language}. Break it down step by step for a {skill_level} programmer.",
+        "prototyping": "Create a complete {project_type} that {functionality}. Include setup instructions and explanations.",
+        "debugging": "Help me understand and fix this {language} error: {error}. Explain what went wrong and how to prevent it."
+      }
+    },
+    "codewhisperer": {
+      "name": "Amazon CodeWhisperer",
+      "description": "AI coding assistant optimized for AWS services and enterprise development",
+      "strengths": [
+        "AWS integration",
+        "Security best practices",
+        "Enterprise patterns",
+        "Cloud-native development",
+        "Compliance awareness"
+      ],
+      "weaknesses": [
+        "AWS-centric suggestions",
+        "May over-engineer simple solutions",
+        "Limited non-cloud context"
+      ],
+      "best_practices": [
+        "Mention relevant AWS services",
+        "Include security requirements",
+        "Specify scalability needs",
+        "Consider compliance requirements",
+        "Include deployment context"
+      ],
+      "optimization_techniques": [
+        "Mention relevant AWS services and integrations",
+        "Include security and compliance requirements",
+        "Request scalable and maintainable solutions",
+        "Specify deployment and infrastructure context",
+        "Consider enterprise-level patterns"
+      ],
+      "prompt_patterns": {
+        "aws_integration": "Create a {language} application that uses {aws_services} to {functionality}. Include security best practices and error handling.",
+        "enterprise": "Design a scalable {solution_type} for {use_case}. Consider {compliance_requirements} and {performance_needs}.",
+        "security": "Implement {feature} with security best practices for {environment}. Include {security_measures} and {compliance_standards}."
+      }
+    },
+    "tabnine": {
+      "name": "Tabnine",
+      "description": "AI assistant that learns from your codebase and team patterns",
+      "strengths": [
+        "Local context awareness",
+        "Team pattern recognition",
+        "Code consistency",
+        "Custom model training",
+        "Privacy-focused"
+      ],
+      "weaknesses": [
+        "Requires existing codebase for best results",
+        "May perpetuate existing code issues",
+        "Limited general knowledge"
+      ],
+      "best_practices": [
+        "Reference existing code patterns",
+        "Mention team conventions",
+        "Specify consistency requirements",
+        "Include relevant file context",
+        "Use established naming conventions"
+      ],
+      "optimization_techniques": [
+        "Reference existing code patterns in your project",
+        "Mention team coding standards and conventions",
+        "Request consistency with existing codebase style",
+        "Include relevant file and class context",
+        "Specify established patterns to follow"
+      ],
+      "prompt_patterns": {
+        "consistency": "Following our team's {pattern_type} pattern, create a {component} that {functionality}. Use the same style as {reference_file}.",
+        "extension": "Extend the existing {component} in {file} to {new_functionality}. Maintain consistency with current implementation.",
+        "refactoring": "Refactor {code} to match our team's {standard} standards. Keep the same functionality but improve {aspect}."
+      }
+    },
+    "codium": {
+      "name": "Codium AI",
+      "description": "AI assistant focused on code quality, testing, and analysis",
+      "strengths": [
+        "Test generation",
+        "Code analysis",
+        "Quality assurance",
+        "Bug detection",
+        "Performance optimization"
+      ],
+      "weaknesses": [
+        "May generate excessive tests",
+        "Focus on testing over feature development",
+        "Can be overly cautious"
+      ],
+      "best_practices": [
+        "Specify test coverage requirements",
+        "Include edge cases and error scenarios",
+        "Request code quality metrics",
+        "Mention performance requirements",
+        "Include maintainability considerations"
+      ],
+      "optimization_techniques": [
+        "Request comprehensive test coverage",
+        "Specify edge cases and error scenarios",
+        "Ask for code quality improvements",
+        "Include performance and maintainability considerations",
+        "Request analysis of potential issues"
+      ],
+      "prompt_patterns": {
+        "testing": "Generate comprehensive tests for {function/class} that cover {scenarios}. Include edge cases for {edge_cases}.",
+        "quality": "Analyze this {language} code for quality issues: {code}. Suggest improvements for {aspects}.",
+        "optimization": "Optimize this {language} code for {performance_metric}: {code}. Maintain {constraints} while improving {goals}."
+      }
+    }
+  },
+  "optimization_strategies": {
+    "intent_based": {
+      "creation": {
+        "description": "Optimizing prompts for code creation tasks",
+        "techniques": [
+          "Specify exact requirements and constraints",
+          "Include input/output examples",
+          "Mention error handling needs",
+          "Specify coding standards to follow",
+          "Include performance requirements"
+        ]
+      },
+      "debugging": {
+        "description": "Optimizing prompts for debugging and error fixing",
+        "techniques": [
+          "Provide complete error messages",
+          "Include relevant code context",
+          "Specify expected vs actual behavior",
+          "Mention debugging steps already tried",
+          "Include environment and version information"
+        ]
+      },
+      "refactoring": {
+        "description": "Optimizing prompts for code improvement tasks",
+        "techniques": [
+          "Clearly state improvement goals",
+          "Specify constraints to maintain",
+          "Include current code and desired outcome",
+          "Mention performance or maintainability goals",
+          "Specify coding standards to follow"
+        ]
+      },
+      "testing": {
+        "description": "Optimizing prompts for test creation and validation",
+        "techniques": [
+          "Specify test coverage requirements",
+          "Include edge cases and error scenarios",
+          "Mention testing framework preferences",
+          "Specify test types (unit, integration, etc.)",
+          "Include performance testing needs"
+        ]
+      }
+    },
+    "complexity_based": {
+      "simple": {
+        "description": "Optimizing simple, straightforward prompts",
+        "techniques": [
+          "Keep instructions concise and direct",
+          "Focus on single, clear objectives",
+          "Avoid over-specification",
+          "Use simple, common terminology"
+        ]
+      },
+      "moderate": {
+        "description": "Optimizing moderately complex prompts",
+        "techniques": [
+          "Break down into clear sub-tasks",
+          "Provide sufficient context",
+          "Include relevant examples",
+          "Specify important constraints",
+          "Balance detail with clarity"
+        ]
+      },
+      "complex": {
+        "description": "Optimizing complex, multi-faceted prompts",
+        "techniques": [
+          "Structure with clear sections",
+          "Prioritize requirements",
+          "Provide comprehensive context",
+          "Include multiple examples",
+          "Break into manageable phases",
+          "Specify success criteria"
+        ]
+      }
+    }
+  },
+  "prompt_enhancement_patterns": {
+    "context_addition": {
+      "description": "Adding relevant context to improve AI understanding",
+      "examples": [
+        "Programming language specification",
+        "Framework or library context",
+        "Project structure information",
+        "Team conventions and standards",
+        "Performance requirements"
+      ]
+    },
+    "specificity_improvement": {
+      "description": "Making vague requests more specific and actionable",
+      "examples": [
+        "Exact function signatures",
+        "Specific error handling requirements",
+        "Precise performance metrics",
+        "Detailed input/output specifications",
+        "Clear success criteria"
+      ]
+    },
+    "structure_enhancement": {
+      "description": "Improving prompt organization and clarity",
+      "examples": [
+        "Step-by-step breakdowns",
+        "Prioritized requirement lists",
+        "Clear section divisions",
+        "Logical flow organization",
+        "Summary and detail separation"
+      ]
+    }
+  }
+}
